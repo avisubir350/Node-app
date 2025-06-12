@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: productivity-api
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27017/productivity-app
+      - JWT_SECRET=your-secret-key-change-in-production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongodb_data:
